@@ -1,6 +1,7 @@
 #ifndef _SNMP_TRAP_H
 #define _SNMP_TRAP_H
 
+#include <stdbool.h>
 #include "typedef.h"
 
 #include "syntax.h"

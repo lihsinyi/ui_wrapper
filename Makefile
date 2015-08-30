@@ -1,14 +1,19 @@
 OBJDIR=obj
 
-CFLAGS=-g -MMD -MP -Wall
+CFLAGS=  -g -MMD -MP -Wall
+CFLAGS+= -Icore -Iitem
 
-SRC=$(wildcard core/*.c)
+SRC=$(wildcard core/*.c item/*.c)
 OBJ=$(SRC:%.c=$(OBJDIR)/%.o)
 LIB=ulw.a
 BIN=test
 
 
 all: test
+
+clean:
+	rm -rf $(OBJDIR)
+	rm -rf $(LIB) $(BIN)
 
 test: $(OBJDIR)/test.o $(LIB)
 	# create $@

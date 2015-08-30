@@ -1,8 +1,7 @@
-#include <stdio.h>
-#include <stdbool.h>
+
 #include "imp.h"
 
-DEC_TYPE_NUM(TYPE_IP4, int, 0, 0xffffffff)
+#include "types.h"
 
 CONFIG_ARRAY(snmp_trap, 6,
         KEY DEC_FIELD(ip, TYPE_IP4)
@@ -11,6 +10,9 @@ CONFIG_ARRAY(snmp_trap, 6,
 )
 
 #ifdef IMP_HANDLER
+
+#include <stdio.h>
+#include <stdbool.h>
 
 bool _uiw_snmp_trap_check(snmp_trap_t *val)
 {

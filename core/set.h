@@ -66,3 +66,4 @@ uiw_ret_t uiw_##cfg##_set(cfg##_t *val) \
 }
 
 #include "syntax.h"
+

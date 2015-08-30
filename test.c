@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include"core/snmp_trap.h"
+#include"snmp_trap.h"
 
 int main()
 {
