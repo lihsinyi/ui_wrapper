@@ -1,10 +1,3 @@
-// could be mutiple included in a file
-
-#define _IMP_H /* prevent imp.h warking in syntax.c */
-#include "default.h"
-#include "syntax.c"
-
-/***** clean macros *****/
 #ifdef DEC_TYPE
 #undef DEC_TYPE
 #endif
