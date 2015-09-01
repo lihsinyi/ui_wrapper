@@ -1,29 +1,38 @@
-OBJDIR=obj
-
+OBJDIR =obj
+ 
 CFLAGS=  -g -MMD -MP -Wall
-CFLAGS+= -Icore -Iitem
+CFLAGS += -I.
 
-ITEM_OBJ=$(foreach template, $(wildcard core/template/*.c), $(foreach item, $(wildcard item/*.c), $(OBJDIR)/codegen/$(item:item/%.c=%)_$(template:core/template/%.c=%).o))
-
-SRC=$(wildcard core/*.c item/*.c)
-OBJ=$(SRC:%.c=$(OBJDIR)/%.o) $(ITEM_OBJ)
-LIB=uiw.a 
+ITEM_DIRS=item
 BIN=test
+
+ALL_ITEM= $(foreach d, $(ITEM_DIRS), $(wildcard $(d)/*.c))
+CODEGEN_OBJ= \
+	$(foreach f, $(ALL_ITEM) \
+		,$(foreach template, $(wildcard core/template/*.c) \
+			,$(OBJDIR)/codegen/$(f:%.c=%)_$(template:core/template/%.c=%).o))
+
+SRC=$(wildcard core/*.c) $(ALL_ITEM)
+OBJ=$(SRC:%.c=$(OBJDIR)/%.o) $(CODEGEN_OBJ)
+LIB=uiw.a 
 HEADER=uiw.h
 
-all: test
+.PHONY: all clean _force
+
+all: $(HEADER) $(LIB)
+	make $(BIN)
 
 clean:
 	rm -rf $(OBJDIR)
 	rm -rf $(LIB) $(BIN) $(HEADER)
 
-test: $(OBJDIR)/test.o $(LIB)
+$(BIN):%:$(OBJDIR)/%.o $(LIB)
 	# create $@
 	@cc $(CFLAGS) $^ -o $@ $(LDFLAGS)
 	
-$(HEADER):
+$(HEADER): _force
 	# create $@
-	@cc $(CFLAGS) -include typedef.h $(foreach i, $(wildcard item/*.c), -include $i) -E core/template/empty.h -o $@
+	@cc $(CFLAGS) $(foreach i, $(ALL_ITEM), -include $i) -E core/template/empty.h -o $@
 	@mkdir -p $(OBJDIR)
 	@sed 's/empty.o/$@/g' -i $(@:%.h=%.d)
 	@mv $(@:%.h=%.d) $(OBJDIR)/
@@ -36,21 +45,14 @@ $(LIB): $(OBJ)
 	# update $@
 	@ar cr $@ $^
 	
-$(OBJDIR)/item/%.o: item/%.c
-	# create $@
-	@mkdir -p $(@D)
-	@cc $(CFLAGS) -include typedef.h -DIMP_HANDLER -c $< -o $@
-	
 define codegen
-$(OBJDIR)/codegen/%_$1.o: item/%.c core/template/$1.c
+$(OBJDIR)/codegen/%_$1.o: %.c core/template/$1.c
 	# create $$@
 	@mkdir -p $$(@D)
 	@cc $(CFLAGS) \
-		-include typedef.h \
 		-include $$< \
-		-include clean.h \
+		-include core/template/clean.h \
 		-include core/template/$1.c \
-		-include default.h \
 		-c $$< -o $$@
 endef # codegen
 $(foreach template, $(wildcard core/template/*.c), $(eval $(call codegen,$(template:core/template/%.c=%))))
@@ -58,8 +60,7 @@ $(foreach template, $(wildcard core/template/*.c), $(eval $(call codegen,$(templ
 $(OBJDIR)/%.o: %.c
 	# create $@
 	@mkdir -p $(@D)
-	@cc $(CFLAGS) -c $< -o $@
+	@cc $(CFLAGS) -DIMP_HANDLER -c $< -o $@
 	
 
--include $(shell find $(OBJDIR) -name '*.d')
-$(OBJDIR)/test.o: $(HEADER)
+-include $(shell [ -d $(OBJDIR) ] &&find $(OBJDIR) -name '*.d')
