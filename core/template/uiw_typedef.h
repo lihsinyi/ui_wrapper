@@ -2,7 +2,7 @@
 #define _TYPEDEF_H
 
 #include <stdbool.h>
-#include "ret.h"
+#include "core/ret.h"
 
 #define DEC_TYPE_NUM(new_type, old_type, min, max) \
 typedef old_type new_type; \

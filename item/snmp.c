@@ -1,5 +1,6 @@
+#include "core/template/uiw_typedef.h"
 
-#include "types.h"
+#include "ip_type.h"
 
 CONFIG_ARRAY(snmp_trap, 6,
         KEY DEC_FIELD(ip, TYPE_IP4)
