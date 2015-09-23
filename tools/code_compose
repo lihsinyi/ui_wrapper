@@ -8,3 +8,8 @@ for code in $*; do
 	sed 's/;/;\n/g' -i $code
 	sed 's/ {/\n{\n/g' -i $code
 done
+
+if which indent &> /dev/null; then
+	indent -kr $*
+	exit
+fi

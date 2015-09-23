@@ -11,9 +11,14 @@ all: uiw-all $(BIN)
 
 clean: uiw-clean
 	rm -f $(BIN)
+	
+check: all 
+	@for i in $(BIN); do echo "# testing $$i" ; $$i | diff $$i.ans - || exit 1; done
+	# all passed
 
 $(BIN):%:%.c
 	# create $@
-	@cc $(CFLAGS) $< $(LIB) -o $@ $(LDFLAGS)
+	@cc $(CFLAGS) $< $(UIW_LIB) -o $@ $(LDFLAGS)
 
 include uiw.mk
+-include $(wildcard testcase/prog/*.d)
