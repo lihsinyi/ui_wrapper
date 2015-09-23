@@ -1,0 +1,34 @@
+check ip_port_t (DEC_TYPE_NUM)
+-1 0
+0 1
+65535 1
+65536 0
+
+check ip4_str_t (DEC_TYPE_STR)
+0 0
+0. 0
+0.0 0
+127.0.0.1 1
+0.0.0.0 1
+0.0.0.300 0
+
+check ip_protocol_t (DEC_TYPE_ENUM_VALUE)
+6 - IP_PROT_TCP
+7 - IP_PROT_UDP
+4 - IP_PROT_IP
+0 - invalid
+6 - IP_PROT_TCP
+5 - invalid
+100 - invalid
+-1 - invalid
+
+check test_et (DEC_TYPE_ENUM)
+0 - ITEM0
+1 - ITEM1
+2 - ITEM2
+-1 - invalid
+0 - ITEM0
+1 - ITEM1
+2 - ITEM2
+3 - invalid
+4 - invalid

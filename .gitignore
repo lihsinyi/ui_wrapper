@@ -1,4 +1,8 @@
 obj
 test
-uiw.h
+testcase.h
+*~
 *.a
+*.d
+testcase/prog/type
+

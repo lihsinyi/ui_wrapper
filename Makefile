@@ -10,7 +10,7 @@ BIN=$(SRC:%.c=%)
 all: uiw-all $(BIN)
 
 clean: uiw-clean
-	rm -f $(BIN)
+	rm -f $(BIN) $(BIN:%=%.d)
 	
 check: all 
 	@for i in $(BIN); do echo "# testing $$i" ; $$i | diff $$i.ans - || exit 1; done
