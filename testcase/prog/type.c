@@ -9,6 +9,13 @@ int main()
 	ip4_str_t ip_str[] = {"0", "0.", "0.0", "127.0.0.1", "0.0.0.0", "0.0.0.300"};
 	ip_protocol_t ip_prot[] = {IP_PROT_TCP, IP_PROT_UDP, IP_PROT_IP, 0, 6, 5, 100, -1};
 	test_et test_e[] = {ITEM0, ITEM1, ITEM2, -1, 0, 1, 2, 3, 4};
+	ip_msg_t msg[] = {
+		{ .addr = "127.0.0.1", .port = 1000,  .protocol = IP_PROT_TCP, .test_e = ITEM2 },
+		{ .addr = "300.0.0.1", .port = 1000,  .protocol = IP_PROT_TCP, .test_e = ITEM2 },
+		{ .addr = "127.0.0.1", .port = 99999, .protocol = IP_PROT_TCP, .test_e = ITEM2 },
+		{ .addr = "127.0.0.1", .port = 1000,  .protocol = 1,           .test_e = ITEM2 },
+		{ .addr = "127.0.0.1", .port = 1000,  .protocol = IP_PROT_TCP, .test_e = 100   }
+	};
 	
 	printf("check ip_port_t (DEC_TYPE_NUM)\n");
 	for(i=0; i<(sizeof(ports)/sizeof(ports[0])); i++){
@@ -38,6 +45,16 @@ int main()
 			printf("%d - %s\n", test_e[i], uiw_enum2str_test_et(test_e[i]));
 		}else{
 			printf("%d - invalid\n", test_e[i]);
+		}
+	}
+	printf("\n");
+	
+	printf("check ip_msg (DEC_TYPE)\n");
+	for(i=0; i<(sizeof(msg)/sizeof(msg[0])); i++){
+		if (uiw_check_ip_msg_t(&msg[i])){
+			printf("valid\n");
+		}else{
+			printf("invalid\n");
 		}
 	}
 		

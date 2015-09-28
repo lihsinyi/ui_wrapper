@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include "core/uiw_typedef.h"
 
 DEC_TYPE_NUM(ip_port_t, int, 0, 65535)
@@ -13,3 +14,11 @@ DEC_TYPE_ENUM_VALUE(ip_protocol_t,
 
 DEC_TYPE_ENUM(test_et, ITEM0,	  ITEM1, ITEM2)
 
+DEC_TYPE(ip_msg_t,
+	FIELD(ip4_str_t, addr)
+	FIELD(ip_port_t, port)
+	FIELD(ip_protocol_t, protocol)
+	FIELD(test_et, test_e)
+	FIELD(int, hi_thresh)
+	FIELD(uint16_t, lo_thresh)
+)

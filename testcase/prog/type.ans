@@ -32,3 +32,10 @@ check test_et (DEC_TYPE_ENUM)
 2 - ITEM2
 3 - invalid
 4 - invalid
+
+check ip_msg (DEC_TYPE)
+valid
+invalid
+invalid
+invalid
+invalid

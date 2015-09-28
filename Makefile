@@ -7,14 +7,14 @@ UIW_DIRS=testcase/uiw_api
 SRC=$(wildcard testcase/prog/*.c)
 BIN=$(SRC:%.c=%)
 
+check: all 
+	@for i in $(BIN); do echo "# testing $$i" ; $$i | diff - $$i.ans || exit 1; done
+	# all passed
+	
 all: uiw-all $(BIN)
 
 clean: uiw-clean
 	rm -f $(BIN) $(BIN:%=%.d)
-	
-check: all 
-	@for i in $(BIN); do echo "# testing $$i" ; $$i | diff $$i.ans - || exit 1; done
-	# all passed
 
 $(BIN):%:%.c
 	# create $@

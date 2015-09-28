@@ -29,6 +29,12 @@ inline static bool uiw_check_##type(type *val) \
 	return (val && *val >= 0 && *val < uiw_##type##_cnt);\
 }
 
+#define FIELD(type, name) type name;
+#define DEC_TYPE(type, fields) \
+typedef struct { \
+	fields \
+} type; \
+bool uiw_check_##type(type *val);
 
 /* prototype */
 
@@ -76,6 +82,13 @@ bool uiw_##cfg##_check(cfg##_t *val);
 #define DEC_TYPE_ENUM(type, ...)
 #endif
 
+#ifndef FIELD
+#define FIELD(type, name)
+#endif
+
+#ifndef DEC_TYPE
+#define DEC_TYPE(type, fields)
+#endif
 
 /* prototype */
 
